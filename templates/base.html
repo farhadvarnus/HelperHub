@@ -44,7 +44,13 @@ https://templatemo.com/tm-569-edu-meeting
                 <div class="col-lg-4 col-sm-4">
                     <div class="right-icons">
                         <ul>
+                            {% if request.user.is_authenticated %}
+                            <li><a href="#">Login as :{{request.user.username}}</a></li>
+                            <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+                            {% else%}
                             <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                            <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
+                            {% endif %}
                             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="#"><i class="fa fa-behance"></i></a></li>
