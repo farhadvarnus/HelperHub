@@ -1,0 +1,33 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'assets/css/login.css'  %}">
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <a class="inactive underlineHover" href="{% url 'accounts:login' %}"> Sign In </a>
+        <h2 class="active">Sign Up </h2>
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="{% static 'assets/image/c2.jpg'  %}" id="icon" alt="User Icon" />
+        </div>
+
+        <!-- Login Form -->
+        <form method="post" action="{% url 'accounts:signup' %}">
+            {% csrf_token %}
+            <input type="text" id="login" class="fadeIn first" name="username" placeholder="username">
+            <input type="email" id="login" class="fadeIn second" name="email" placeholder="Email">
+            <input type="password" id="login" class="fadeIn third" name="password1" placeholder="password">
+            <input type="password" id="login" class="fadeIn fourth" name="password2" placeholder="confirm password">
+
+
+            <div>
+                <input type="submit" class="fadeIn fourth" value="Create acc"></input>
+            </div>
+        </form>
+
+        <!-- Remind Passowrd -->
+
+
+    </div>
+</div>

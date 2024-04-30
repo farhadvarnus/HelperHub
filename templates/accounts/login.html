@@ -1,0 +1,38 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <h2 class="active"> Sign In </h2>
+        <a class="inactive underlineHover" href="{% url 'accounts:signup' %}">Sign Up </a>
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="{% static 'assets/image/c2.jpg' %}" id="icon" alt="User Icon" />
+        </div>
+
+        <!-- Login Form -->
+        <form method="post" action="{% url 'accounts:login' %}">
+            {% csrf_token %}
+            <input type="text" id="login" class="fadeIn second" name="username" placeholder="Username or Email">
+            <input type="password" id="password" class="fadeIn third" name="password" placeholder="Password">
+
+
+            <div>
+                <input type="submit" class="fadeIn fourth" value="Log In"></input>
+            </div>
+            <p>
+                {% include 'messaging.html' %}
+            </p>
+        </form>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a class="underlineHover" href="{% url 'reset_password' %}">Forgot Password?</a>
+        </div>
+
+
+    </div>
+</div>
