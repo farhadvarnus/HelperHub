@@ -66,13 +66,13 @@ https://templatemo.com/tm-569-edu-meeting
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
             <a href="{% url 'mysite:index' %}" class="logo">
-              Edu Meeting
+              Edu Courses
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
               <li><a href="{% url 'mysite:index' %}">Home</a></li>
-              <li><a href="meetings.html" class="active">Meetings</a></li>
+              <li><a href="meetings.html" class="active">Free Learning</a></li>
               <li><a href="{% url 'mysite:index' %}">Apply Now</a></li>
               <li class="has-sub">
                 <a href="javascript:void(0)">Pages</a>
@@ -89,8 +89,11 @@ https://templatemo.com/tm-569-edu-meeting
             </a>
             <!-- ***** Menu End ***** -->
           </nav>
+          {% include 'blog/blog-search.html'%}
         </div>
+
       </div>
+
     </div>
   </header>
   <!-- ***** Header Area End ***** -->
