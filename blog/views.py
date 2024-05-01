@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from blog.models import Post
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
+from django.views import View
+
+from blog.models import Post, Category
 # Create your views here.
 
 
@@ -60,11 +62,30 @@ def single_blog(request):
     return render(request, "blog/single.html", context)
 
 
-def search_blog(request):
-    posts = Post.objects.filter(
-        published_date__lte=timezone.now(), status=1)
-    if request.method == "GET":
-        posts = posts.filter(content__contains=request.GET.get("s"))
+# def search_blog(request):
+#     posts = Post.objects.filter(
+#         published_date__lte=timezone.now(), status=1)
+#     if request.method == "GET":
+#         posts = posts.filter(content__contains=request.GET.get("s"))
 
-    context = {"posts": posts}
-    return render(request, "blog/home.html", context)
+#     context = {"posts": posts}
+#     return render(request, "blog/home.html", context)
+
+
+class SearchView(View):
+    def get(self, request):
+        query = request.GET.get('q')  # دریافت پارامتر جستجو از آدرس
+        categories = Category.objects.filter(
+            name__icontains=query)  # جستجو در نام دسته بندی
+        posts = Post.objects.filter(
+            title__icontains=query) | Post.objects.filter(
+            author__username__icontains=query)
+        # جستجو در عنوان پست و نام نویسنده
+
+        context = {
+            'categories': categories,
+            'posts': posts,
+            'query': query,
+        }
+
+        return render(request, 'blog/home.html', context)
