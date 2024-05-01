@@ -168,6 +168,7 @@ input[type=text]:placeholder {
     animation-fill-mode: both;
 }
 
+
 @-webkit-keyframes fadeInDown {
     0% {
         opacity: 0;
