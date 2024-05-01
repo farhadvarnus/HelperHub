@@ -106,7 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -136,7 +135,9 @@ STATICFILES_DIRS = [BASE_DIR/"statics",]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
+AUTHENTICATION_BACKENDS = [
+
+    'accounts.backends.EmailBackend', ]
 
 # SMTP RESET PASSWORD MR ROUHOLLAHI
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

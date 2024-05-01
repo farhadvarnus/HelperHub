@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login,  logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserCreationForm
 # Create your views here.
