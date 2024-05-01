@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from blog.models import Post
+from blog.models import Post, Category
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
@@ -61,10 +61,16 @@ def single_blog(request):
 
 
 def search_blog(request):
+    query = request.GET.get('s')  # دریافت پارامتر جستجو از آدرس
+    categories = Category.objects.filter(
+        name__icontains=query)  # جستجو در نام دسته بندی
     posts = Post.objects.filter(
-        published_date__lte=timezone.now(), status=1)
-    if request.method == "GET":
-        posts = posts.filter(content__contains=request.GET.get("s"))
-
-    context = {"posts": posts}
+        title__icontains=query) | Post.objects.filter(
+        author__username__icontains=query)
+    # جستجو در عنوان پست و نام نویسنده
+    context = {
+        'categories': categories,
+        'posts': posts,
+        'query': query,
+    }
     return render(request, "blog/home.html", context)
