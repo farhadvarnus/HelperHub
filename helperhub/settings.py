@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taggit',
     'django_summernote',
+    'django.contrib.humanize',
 
     'mysite',
     'accounts',
@@ -145,3 +146,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'farhad.rouhollahi11@gmail.com'
 EMAIL_HOST_PASSWORD = 'usoxxmvewvccsagd'
 DEFAULT_FROM_EMAIL = "farhad.rouhollahi11@gmail.com"
+# SUMMERNOTE
+X_FRAME_OPTIONS = 'SAMEORIGIN'
