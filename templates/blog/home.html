@@ -141,13 +141,13 @@ https://templatemo.com/tm-569-edu-meeting
                         </span><br>
                         {% endfor %}
                       </div>
-                      <a href="meeting-details.html"><img src="{{post.image.url}}" alt=""></a>
+                      <a href="{% url 'blog:single' pid=post.id %}"><img src="{{post.image.url}}" alt=""></a>
                     </div>
                     <div class="down-content">
                       <div class="date">
                         <h6>{{post.published_date|date:'D d/M/Y'}}</h6>
                       </div><br>
-                      <a href="meeting-details.html">
+                      <a href="{% url 'blog:single' pid=post.id %}">
                         <h4>{{post.title}}</h4>
                       </a>
                       <br>

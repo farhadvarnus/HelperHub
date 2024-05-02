@@ -27,7 +27,7 @@ def home_blog(request, **kwargs):
     return render(request, "blog/home.html", context)
 
 
-def single_blog(request):
+def single_blog(request, pid):
     posts = Post.objects.filter(
         published_date__lte=timezone.now(), status=1)
     post = get_object_or_404(posts, pk=pid)
