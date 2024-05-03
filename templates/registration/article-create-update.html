@@ -1,0 +1,95 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% trans "my home" %}
+<p><h3>{{user.get_full_name}}</h3></p>
+
+{% block title %}
+{% block title-meta %}
+ {% trans "Add article" %}
+{% endblock title-meta %}
+{% endblock title %}
+
+{% block main %}
+<div class="col-md-18" >
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title mb-0 float-left">{% trans "Write a new article" %} </h3>
+    </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="form-row" >
+                    {% if user.is_superuser %}
+                        <div class="col-md-6">
+                            {{ form.author|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.status|as_crispy_field }}
+                        </div>
+                    {% else %}
+                        <div id="div_id_status" class="col-md-12 mb-3">    
+                            <label for="id_status" class="form-label requiredField">
+                               {% trans "situation" %}  <span class="asteriskField">*</span>
+                            </label>  
+                            <select name="status" class="select form-select" required="" id="id_status">
+                              <option value="">---------</option>
+
+                              <option value="d">{% trans "draft" %}  </option>
+
+                              {% comment %} <option value="p">منتشر شده</option> {% endcomment %}
+
+                              <option value="i">{% trans "Send to admin" %}  </option> 
+
+                              {% comment %} <option value="b" selected="">برگشت داده شده</option> {% endcomment %}
+
+                            </select>
+                                    
+                        </div>
+                    {% endif %}
+                      <div class="col-4">
+                        {{ form.title|as_crispy_field }}
+
+                      </div>
+                      <div class="col-8">
+                        {{ form.Slug|as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="col-6">
+                    </div>
+                    <div class="col-12">
+                        {{ form.content|as_crispy_field }}
+                    </div>
+                    <div class="col-12">
+                        {{ form.Category|as_crispy_field }}
+                    </div>
+
+                    <div class="col-6">
+                        {{ form.image|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.Publish|as_crispy_field }}
+                    </div>
+                    <div class='col-6'></div>
+
+                    <div class="col-12">
+                        {{ form.is_spacial|as_crispy_field }}
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-success" >
+                          {% trans "📩 Submit article" %} 
+                        </button>
+                        {% if user.is_superuser and request.resolver_match.kwargs.pk %}
+                            <a href="{% url 'account:article-delete' request.resolver_match.kwargs.pk %}" 
+                                class="btn btn-danger">{% trans "🗑️ Delete" %}  
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </form>
+            
+        </div>
+    </div>
+    
+</div>
+{% endblock main %}

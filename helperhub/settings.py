@@ -41,9 +41,16 @@ INSTALLED_APPS = [
     'django_summernote',
     'django.contrib.humanize',
 
+    'crispy_forms',
+    'django_gravatar',
+    "crispy_bootstrap5",
+
+
     'mysite',
     'accounts',
     'blog',
+    'dashboard',
+
 ]
 
 MIDDLEWARE = [
@@ -51,12 +58,16 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'blog.middleware.SimpleMiddleware',
 ]
 
 ROOT_URLCONF = 'helperhub.urls'
+AUTH_USER_MODEL = 'accounts.User'
 
 TEMPLATES = [
     {
@@ -119,6 +130,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

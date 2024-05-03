@@ -1,8 +1,19 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from blog.models import Post, Category
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.utils import timezone
-from django.contrib.auth import authenticate, login
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, PasswordChangeView
+
+from dashboard.forms import UserForms
+from accounts.models import User
+from blog.models import Post, Category
+from dashboard.mixins import (
+    FieldsMixin,
+    FormMixin,
+    SuperUserAccessMixin,
+    AuthorsAccessMixin, )
 # Create your views here.
 
 
@@ -74,3 +85,70 @@ def search_blog(request):
         'query': query,
     }
     return render(request, "blog/home.html", context)
+
+
+class Detail_list(DetailView):
+
+    def get_object(self):
+        # میاد هرچی ک مال اسلاگه رو میگیره = هرمقداری اسلاگ داشت رو میگیره   تعریف اسلاگ
+        slug = self.kwargs.get('slug')
+        # اینجا تعیین کردیم که از مدل .. اسلاگ برابر با اسلاگه
+        article = get_object_or_404(Post, Slug=slug, status='p')
+
+        ip_address = self.request.META['ip_address']
+        if ip_address not in article.hits.all():
+            article.hits.add(ip_address)
+
+        return article
+
+
+class Article_Create(AuthorsAccessMixin, FormMixin, FieldsMixin, CreateView):
+    model = Post
+    template_name = 'registration/article-create-update.html'
+
+    def get_success_url(self):
+        return reverse_lazy('dashboard:home')
+
+
+class Article_Update(AuthorsAccessMixin, FormMixin, FieldsMixin, UpdateView):
+    model = Post
+    template_name = 'registration/article-create-update.html'
+
+
+class AuthorDelete(SuperUserAccessMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')
+    template_name = 'registration/article_confirm_delete.html'
+
+
+class Profile(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'registration/profile.html'
+    form_class = UserForms
+    success_url = reverse_lazy('account:profile')
+
+    def get_object(self):
+
+        return User.objects.get(pk=self.request.user.pk)
+
+    def get_form_kwargs(self):
+        kwargs = super(Profile, self).get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user
+
+        })
+        return kwargs
+
+
+class PasswordChange(PasswordChangeView):
+    success_url = reverse_lazy('dashboard:password_change_done')
+
+
+class Login(LoginView):
+    def get_success_url(self):
+        user = self.request.user
+
+        if user.is_superuser or user.is_author:
+            return reverse_lazy('dashboard:home')
+        else:
+            return reverse_lazy('dashboard:profile')
