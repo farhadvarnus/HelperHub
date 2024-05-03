@@ -1,0 +1,116 @@
+{% extends 'registration/base.html' %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+my home
+<p>
+<h3>{{user.get_full_name}}</h3>
+</p>
+
+{% block title %}
+{% block title-meta %}
+{% trans "Article list" %}
+{% endblock title-meta %}
+{% endblock title %}
+
+{% block main %}
+
+<style>
+  .img-responsive {
+      width: 30%;
+      height: auto;
+  }
+</style>
+{% if object_list %}
+<div class="row" >
+  <div class="col-12">
+    <div class="card">
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0" >
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>{% trans "📝 Article Title" %} </th>
+              <th>{% trans "🖼️ Image" %} </th>
+              <th>{% trans "📂 Category" %}</th>
+              <th>{% trans "🖋️ Author" %}  </th>
+              <th>{% trans "📄 Description" %}</th>
+              <th>{% trans "📅 Publication Date" %}</th>
+              <th>{% trans "🌟 Special Article" %}</th>
+              <th>{% trans "📊 Status" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for article in object_list %}
+            <tr>
+              <td>
+                {% comment %} تنظیم ویژگی ویرایش مقاله برای وضعیتی ک مقاله پیشنویسه یا برا شخصی ک یوپر یوزره ممکنه
+                (میتونه مقالرو ادیت بزنه) {% endcomment %}
+                {% if article.status in 'bd'|make_list or user.is_superuser %}
+                <a href="{% url 'dashboard:article-update' article.pk %}">{{article.title}}</a>
+                {% else %}
+                {{article.title}}
+                {% endif %}
+              </td>
+              <td><img src="{{ article.image.url }}" class="img-responsive" alt=""></td>
+              <td>{{article.category_to_str}}</td>
+              <td>
+                {% if article.author.get_full_name %}
+                  {{ article.author.get_full_name }}
+                {% else %}
+                  {{ article.author.username }}
+                {% endif %}
+              </td>
+
+              <td>
+                {{article.content|striptags|truncatewords:'25'}}
+                    
+              </td>
+              <td>{{article.created_date}}</td>
+              <td>
+                {% if article.is_spacial %}
+                <i class='fa fa-check-circle' style='color:green'></i>
+                {% else %}
+                <i class='fa fa-minus-circle' style='color:red'></i>
+                {% endif %}
+              <td>
+                {% if article.status == 'p' %}
+                <span class="badge badge-success">{% trans "✅ Published" %}</span>
+                <a target="_blank" class="badge badge-primary" href="{% url 'blog:detail_article' article.Slug %}">{% trans "📖 Display article" %} </a>
+
+                {% elif article.status == 'i' %}
+                <span class="badge" style="background-color: orange;">{% trans "🔍 Under review" %} </span>
+                {% if user.is_superuser %}
+                <a target="_blank" class="badge badge-secondary" href="{% url 'blog:preview' article.pk %}">{% trans "👀 Preview" %} </a>
+                {% endif %}
+
+                {% else %}
+                {% if article.status == 'p' %}
+                <span class="badge badge-danger">{% trans "📝 Draft" %} </span>
+                <a target="_blank" class="badge badge-secondary" href="{% url 'blog:preview' article.pk %}">{% trans "👀 Preview" %}</a>
+                {% else %}
+                <span class="badge" style="background-color : red">{% trans "⬅️ Returned" %}  </span>
+                {% endif %}
+
+                {% endif %}
+
+                {% if user.is_superuser %}
+                <a class="badge text-danger" href="{% url 'dashboard:article-delete' article.pk %}">{% trans "🗑️ Delete" %}</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor article %}
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
+{% else %}
+<h4>{% trans "📭 No content available for display" %} </h4>
+{% endif %}
+{% endblock main %}

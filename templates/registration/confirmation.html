@@ -1,0 +1,86 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <title>{% trans " Registration Confirmation | My Django Blog" %}  </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--===============================================================================================-->	
+    <link rel="icon" type="image/png" href="{% static 'registration/login/images/icons/received.png' %}">
+    <!-- اضافه کردن فایل‌های CSS بوت استرپ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <!-- اضافه کردن فایل‌های CSS سفارشی -->
+  <link rel="stylesheet" href="{% static 'registration/login/css/confirmation.css' %}">
+</head>
+<body class="text-right">
+    <div class="container">
+        <h2 class="mt-3 mb-5">{% trans "✅ Registration Confirmation" %}</h2>
+        <div class="alert alert-info">
+            <p class="lead mb-0">{% trans "📧 Please go to your email to complete your registration and click on the activation link you received" %}</p>
+            <p class="mt-3 mb-0">{% trans "📧 If you haven't received an email, please check your junk or" %} <b>Spam</b> {% trans "and" %} <b>Promotions</b> {% trans "email folder first" %} </p>
+        </div>
+        <a href="/login" class="btn btn-primary mt-3 text-center">{% trans "Login" %}</a>
+    </div>
+    <!-- اضافه کردن فایل‌های جاوااسکریپت بوت استرپ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <!-- اضافه کردن فوتر -->
+    <footer>
+      <div class="container-fluid bg-dark text-white py-3 text-center">
+        <h1 style="font-size: 2rem;">{% trans "My Django Blog 2024" %} &copy;</h1>
+      </div>
+      <div class="container-fluid bg-dark text-white py-3">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 style="font-size: 1.5rem;" class="container-fluid bg-dark text-white py-3 text-center">{% trans "contact us" %} </h3>
+            <p class="container-fluid bg-dark text-white py-3 text-center">{% trans "📞 If you have any questions or suggestions, feel free to contact us." %} </p>
+            <p>{% trans "Email" %} : hameddjf33@gmail.com</p>
+          </div>
+    
+          <!-- اضافه کردن لوگو سایت -->
+    
+          {% comment %} <div class="col-md-6">
+            <img src="logo.png" alt="لوگو وبلاگ" width="150">
+          </div> {% endcomment %}
+        </div>
+      </div>
+      <div class="container-fluid bg-secondary text-white py-3">
+        <div class="row">
+          <div class="col-md-4">
+            <h3 style="font-size: 1.5rem;" class="text-white py-3 text-center">{% trans "🔍 Quick access" %} </h3>
+            <ul>
+              <li><a href="#">{% trans "Home" %} </a></li>
+              <li><a href="#">{% trans "ℹ️ About us" %}</a></li>
+              <li><a href="#">{% trans "📝 Blog" %} </a></li>
+              <li><a href="#">{% trans "📞 Contact us" %} </a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h3 style="font-size: 1.5rem;" class="text-white py-3 text-center">{% trans "👥 Follow us" %}</h3>
+            <ul>
+              <li><a href="#">{% trans "Telegram" %} </a></li>
+              <li><a href="#">{% trans "Instagram" %}</a></li>
+              <li><a href="#">{% trans "Twitter" %}</a></li>
+              <li><a href="#">{% trans "Facebook" %}</a></li>
+            </ul>
+          </div>
+    
+          <!-- اضافه کردن خبرنامه  -->
+          <div class="col-md-4" >
+            <h3 style="font-size: 1.5rem;" class="text-white py-3 text-center">{% trans "Newsletters" %} </h3>
+            <p>{% trans "✉️ Please enter your email to receive the latest news and articles from the blog:" %}  </p>
+
+            <form action="#" method="post">
+              <div class="form-group">
+                <input type="email" class="form-control text-center" placeholder={% trans "📧 Email address" %}>
+              </div>
+              <button type="submit" class="btn btn-primary">{% trans "Follow" %} </button>
+            </form>
+          </div>
+        </div>
+      </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load i18n %}
+
+my home
+
+{% comment %} {% block head %}
+{{ block.super }}
+
+<link rel="icon" type="image/png" href="{% static 'registration/login/images/icons/failure.png' %}">
+{% endblock head %} {% endcomment %}
+
+
+{% block title %}
+{% block title-meta %}
+  {% trans "Profile" %}
+{% endblock title-meta %}
+{% endblock title %}
+  
+{% block main %}
+<div class="col-md-18" >
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title mb-0 float-right">{% trans "🎉 Welcome to your user profile!" %} </h3>
+    </div>
+        <div class="card-body">
+            <form method="post" >{% csrf_token %}
+                <div class="form-row" >
+                    <div class="col-md-6">
+                        {{ form.username|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.email|as_crispy_field }}
+                    </div>
+                    <div class="col-md-12 container">
+                        <div class="alert alert-warning ">
+                          <label>{% trans "Password" %} :</label>
+                          <p class='mb-0 text-center'>{% trans "🔐 To change your password:" %}  
+                            <a class='alert-link' href='{% url 'dashboard:password_change' %}'>{% trans "Here" %}
+
+                            </a> 
+                            {% trans "Click it" %} </p>
+                        </div>
+                      </div>
+                    <div class="col-md-6">
+                      {{ form.first_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.last_name|as_crispy_field }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.spacial_user|as_crispy_field }}
+                    </div>
+                    
+                    <div class="col-md-6">
+                        {{ form.is_author|as_crispy_field }}
+                    </div>
+
+                    <div class="col-md-12">
+                        <button class="btn btn-success" >
+                            {% trans "🖊️ Edit information" %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+    
+</div>
+{% endblock main %}

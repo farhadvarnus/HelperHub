@@ -1,0 +1,165 @@
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>{% trans "🔑 Sign in" %} </title>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'registration/login/images/icons/favicon.ico' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/main.css' %}">
+	{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/rtl.css' %}"> {% endcomment %}
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		{% if form.non_field_errors%}
+		<div class="errors"> 
+			{% for error in form.non_field_errors%}
+				<span>{{error}}</span>
+			{% endfor %}
+			<style>
+				.errors {
+					text-align: center;
+					color: red;
+					box-sizing: border-box;
+					padding: 5px 15px;
+					background-color: blanchedalmond;
+
+				}
+			</style>
+		</div>
+	{% endif %}
+		<div class="container-login100">
+			<div class="wrap-login100">
+
+				<div class="login100-pic js-tilt" data-tilt>
+					<img src="{% static 'registration/login/images/img-01.png' %}" alt="IMG">
+				</div>
+								{% comment %} برای اینکه متود پوست کار کنه باید ورودی ها(اینپوتها ) از نوع فورم باشن {% endcomment %}
+				<form class="login100-form validate-form" method="post">{% csrf_token %}
+					<span class="login100-form-title myfont">
+						{% trans "🔑 Sign in" %}
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+						{% comment %} <input class="input100" type="text" name="text" placeholder="ایمیل"> {% endcomment %}
+						{{form.username | add_class:"input100"}}
+							{% if form.username.errors %}
+								<div class="errors"> 
+									{% for error in form.username.errors%}
+										<span>{{error}}</span>
+									{% endfor %}
+									<style>
+										.errors {
+											text-align: center;
+											color: red;
+											box-sizing: border-box;
+											padding: 5px 15px;
+											background-color: blanchedalmond;
+											
+										}
+									</style>
+								</div>
+							{% endif %}
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						{% comment %} <input class="input100 password-field" type="password" name="pass" placeholder="رمز عبور"> {% endcomment %}
+						{{form.password | add_class:"input100"}}
+							{% if form.password.errors %}
+								<div class="errors"> 
+									{% for error in form.password.errors %}
+										<span>{{error}}</span>
+									{% endfor %}
+									<style>
+										.errors {
+											text-align: center;
+											color: red;
+											box-sizing: border-box;
+											padding: 5px 15px;
+											background-color: blanchedalmond;
+											
+										}
+									</style>
+								</div>
+							{% endif %}
+						<span class="focus-input100"></span>
+
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+
+							{% comment %}  ایکون چشم {% endcomment %}
+							{% comment %} <span class="btn-show-pass"> 							
+								<i class="fa fa-eye password-toggle" aria-hidden="true"></i>
+							</span> {% endcomment %}
+						</span>
+
+
+					</div>
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn myfont">
+							 {% trans "Login" %}
+						</button>
+					</div>
+
+					<div class="text-center p-t-12">
+						<a class="txt2 " href="{% url 'password_reset' %}">{% trans "🔐 Forgot Password" %}  
+							<i class='fa fa-long-arrow-left m-l-6'></i> 
+						</a>
+					</div>
+
+					<div class="text-center p-t-136">
+						<a class="txt2" href="{% url 'signup' %}">
+							{% trans "📝 Register" %}
+							<i class="fa fa-long-arrow-left m-l-6" aria-hidden="true"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+
+	
+<!--===============================================================================================-->	
+	<script src="{% static 'registration/login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'registration/login/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'registration/login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'registration/login/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'registration/login/vendor/tilt/tilt.jquery.min.js '%}"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+	<script src="{% static 'registration/login/js/main.js '%}"></script>
+
+</body>
+</html>
