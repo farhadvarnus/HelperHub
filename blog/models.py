@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -17,6 +18,7 @@ class Post(models.Model):
     tags = TaggableManager(blank=True)
     category = models.ManyToManyField(Category)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
     title = models.CharField(max_length=255)
     content = models.TextField()
     counted_view = models.IntegerField(default=0)
@@ -35,3 +37,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("singe_blog", kwargs={'pid': self.id})
+
+
+class Likes(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="user_likes")
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="post_likes")

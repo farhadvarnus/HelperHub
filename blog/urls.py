@@ -11,6 +11,8 @@ urlpatterns = [
     path("author/<str:author_username>", home_blog, name='author'),
     path("search/", search_blog, name='search'),
     path("tags/<str:tag_name>", home_blog, name='tag'),
+    path("like/<int:pid>", like_blog, name='like'),
+    path("liked-courses/", liked_courses_blog, name='liked-courses'),
 
 
 ]

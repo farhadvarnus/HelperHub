@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from blog.models import Post, Category
+from blog.models import Post, Category, Likes
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+from django.urls import reverse
 # Create your views here.
 
 
@@ -74,3 +77,38 @@ def search_blog(request):
         'query': query,
     }
     return render(request, "blog/home.html", context)
+
+
+def like_blog(request, pid):
+    if not request.user.is_authenticated:
+        messages.add_message(request, messages.ERROR,
+                             'you must be sign in for like any courses!!!')
+        return HttpResponseRedirect(reverse('blog:single', args=[pid]))
+    user = request.user.id
+    post = Post.objects.get(id=pid)
+    current_likes = post.like
+    liked = Likes.objects.filter(user=user, post=post).count()
+    if not liked:
+        liked = Likes.objects.create(user=request.user, post=post)
+        current_likes += 1
+    else:
+        liked = Likes.objects.filter(user=user, post=post).delete()
+        current_likes -= 1
+    post.like = current_likes
+    post.save()
+    return HttpResponseRedirect(reverse('blog:single', args=[pid]))
+
+
+def liked_courses_blog(request):
+   # user = request.user
+   # posts = Post.objects.filter(
+   #     published_date__lte=timezone.now(), status=1)
+   # for post in posts:
+   #     liked = Likes.objects.filter(user=user, post=post)
+   #     if liked:
+   #         all_post.append
+   #
+   # context = {"posts": posts}
+   # return render(request, "blog/home.html", context)
+    #
+    pass

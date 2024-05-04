@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_summernote',
     'django.contrib.humanize',
 
+
     'mysite',
     'accounts',
     'blog',

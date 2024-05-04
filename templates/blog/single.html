@@ -47,6 +47,13 @@ https://templatemo.com/tm-569-edu-meeting
         <div class="col-lg-4 col-sm-4">
           <div class="right-icons">
             <ul>
+              {% if request.user.is_authenticated %}
+              <li><a href="#">Login as :{{request.user.username}}</a></li>
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+              {% else%}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+              <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
+              {% endif %}
               <li><a href="#"><i class="fa fa-facebook"></i></a></li>
               <li><a href="#"><i class="fa fa-twitter"></i></a></li>
               <li><a href="#"><i class="fa fa-behance"></i></a></li>
@@ -65,22 +72,16 @@ https://templatemo.com/tm-569-edu-meeting
         <div class="col-12">
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo">
+            <a class="logo">
               Edu Meeting
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
-              <li><a href="index.html">Home</a></li>
-              <li><a href="meetings.html" class="active">Meetings</a></li>
-              <li><a href="index.html">Apply Now</a></li>
-              <li class="has-sub">
-                <a href="javascript:void(0)">Pages</a>
-                <ul class="sub-menu">
-                  <li><a href="meetings.html">Upcoming Meetings</a></li>
-                  <li><a href="meeting-details.html">Meeting Details</a></li>
-                </ul>
-              </li>
+              <li><a href="{% url 'mysite:index'%}">Home</a></li>
+              <li><a href="{% url 'blog:index'%}" class="active">Meetings</a></li>
+              <li><a href="{% url 'mysite:index'%}">Apply Now</a></li>
+
               <li><a href="index.html">Courses</a></li>
               <li><a href="index.html">Contact Us</a></li>
             </ul>
@@ -124,6 +125,11 @@ https://templatemo.com/tm-569-edu-meeting
                   </div>
                   <a href="meeting-details.html"><img src="{{post.image.url}}" alt=""></a>
                 </div>
+
+                <a href="{% url 'blog:like' post.id %}">
+                  <h4><i style="font-size:35px" class="fa">&#xf08a;</i> {{post.like}}</h4>
+                </a>
+
                 <div class="down-content">
                   <a href="meeting-details.html">
                     <h4>{{post.title}}</h4>
