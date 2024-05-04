@@ -100,15 +100,12 @@ def like_blog(request, pid):
 
 
 def liked_courses_blog(request):
-   # user = request.user
-   # posts = Post.objects.filter(
-   #     published_date__lte=timezone.now(), status=1)
-   # for post in posts:
-   #     liked = Likes.objects.filter(user=user, post=post)
-   #     if liked:
-   #         all_post.append
-   #
-   # context = {"posts": posts}
-   # return render(request, "blog/home.html", context)
-    #
-    pass
+    user = request.user.id
+    liked_post = Likes.objects.filter(user_id=user).values('post_id')
+    print(liked_post)
+    all_post = []
+    for post in liked_post:
+        all_post += (Post.objects.filter(id=post.get('post_id')))
+
+    context = {"posts": all_post}
+    return render(request, "blog/home.html", context)
