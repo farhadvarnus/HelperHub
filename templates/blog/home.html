@@ -80,14 +80,14 @@ https://templatemo.com/tm-569-edu-meeting
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
               <li><a href="{% url 'mysite:index' %}">Home</a></li>
-              <li><a href="meetings.html" class="active">Free Learning</a></li>
+              <li><a href="{% url 'blog:index' %}" class="active">Free Learning</a></li>
               <li><a href="{% url 'mysite:index' %}">Apply Now</a></li>
               {% if request.user.is_authenticated %}
               <li class="has-sub">
-                <a href="javascript:void(0)">Pages</a>
+                <a href="javascript:void(0)">DASHBOARD</a>
                 <ul class="sub-menu">
                   <li><a href="{% url 'blog:liked_courses' %}">courses you like</a></li>
-                  <li><a href="meeting-details.html">Meeting Details</a></li>
+                  <li><a href="{% url 'blog:Create-post' %}">Create-Post</a></li>
                 </ul>
               </li>
               {% endif %}

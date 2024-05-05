@@ -27,6 +27,7 @@ def home_blog(request, **kwargs):
         posts = posts.get_page(1)
     except EmptyPage:
         posts = posts.get_page(1)
+
     context = {"posts": posts}
     return render(request, "blog/home.html", context)
 
@@ -101,9 +102,13 @@ def like_blog(request, pid):
 
 
 def liked_courses_blog(request):
+    if not request.user.is_authenticated:
+        messages.add_message(request, messages.ERROR,
+                             'you must be sign in for like any courses!!!')
+        return HttpResponseRedirect(reverse('blog:index', args=[pid]))
     user = request.user.id
     liked_post = Likes.objects.filter(user_id=user).values('post_id')
-    print(liked_post)
+
     all_post = []
     for post in liked_post:
         all_post += (Post.objects.filter(id=post.get('post_id')))
@@ -117,6 +122,10 @@ def dashboard_blog(request):
 
 
 def create_post_blog(request):
+    if not request.user.is_authenticated:
+        messages.add_message(request, messages.ERROR,
+                             'you must be sign in for accesses dashboard!!!')
+        return HttpResponseRedirect(reverse('blog:index', args=[pid]))
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():

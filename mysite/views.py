@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from .forms import ContactForm
 from django.contrib import messages
+from blog.models import Post
 # Create your views here.
 
 
 def index_view(request):
-    return render(request, 'mysite/index.html')
+    posts = Post.objects.all().order_by('-like')[:5]
+
+    context = {'posts': posts}
+    return render(request, 'mysite/index.html', context)
 
 
 def contact_view(request):
