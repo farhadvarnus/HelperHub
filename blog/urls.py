@@ -12,7 +12,7 @@ urlpatterns = [
     path("search/", search_blog, name='search'),
     path("tags/<str:tag_name>", home_blog, name='tag'),
     path("like/<int:pid>", like_blog, name='like'),
-    path("liked-courses/", liked_courses_blog, name='liked-courses'),
-
+    path("liked-courses/", liked_courses_blog, name='liked_courses'),
+    path("dash/", create_post_blog, name='Create-post'),
 
 ]

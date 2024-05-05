@@ -78,13 +78,16 @@ https://templatemo.com/tm-569-edu-meeting
                             <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                             <li><a href="{% url 'blog:index' %}">Free Learning</a></li>
                             <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
+                            {% if request.user.is_authenticated %}
                             <li class="has-sub">
-                                <a href="javascript:void(0)">Pages</a>
+                                <a href="javascript:void(0)">dashbord</a>
                                 <ul class="sub-menu">
-                                    <li><a href="{% url 'blog:index' %}">Upcoming Meetings</a></li>
+                                    <li><a href="{% url 'blog:liked_courses' %}">LIKED-POST</a></li>
+                                    <li><a href="{% url 'blog:Create-post' %}">CREATE-POST</a></li>
 
                                 </ul>
                             </li>
+                            {% endif %}
                             <li class="scroll-to-section"><a href="#courses">Courses</a></li>
                             <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
 

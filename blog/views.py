@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
+from .forms import PostForm
 # Create your views here.
 
 
@@ -109,3 +110,25 @@ def liked_courses_blog(request):
 
     context = {"posts": all_post}
     return render(request, "blog/home.html", context)
+
+
+def dashboard_blog(request):
+    return render(request, "dashboard/create-post.html")
+
+
+def create_post_blog(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            # form.instance.name = "unknown"
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'SUCCESS!!!')
+
+        else:
+
+            messages.add_message(request, messages.ERROR, 'FAILD!!!')
+
+    form = PostForm()
+    category = Category.objects.all()
+    print(category)
+    return render(request, "dashboard/create-post.html", {"form": form, 'category': category})
