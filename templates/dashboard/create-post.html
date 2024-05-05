@@ -80,7 +80,7 @@ https://templatemo.com/tm-569-edu-meeting
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
                             <li><a href="{% url 'mysite:index' %}">Home</a></li>
-                            <li><a href="meetings.html">Free Learning</a></li>
+                            <li><a href="{% url 'blog:index' %}">Free Learning</a></li>
                             <li><a href="{% url 'mysite:index' %}">Apply Now</a></li>
                             {% if request.user.is_authenticated %}
                             <li class="has-sub">
@@ -117,6 +117,7 @@ https://templatemo.com/tm-569-edu-meeting
                         <div class="col-lg-12">
                             <form id="contact" action="{% url 'blog:Create-post'%}" method="post">
                                 {% csrf_token %}
+
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <h2>Create Post</h2>

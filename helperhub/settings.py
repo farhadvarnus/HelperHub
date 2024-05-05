@@ -40,12 +40,19 @@ INSTALLED_APPS = [
     'taggit',
     'django_summernote',
     'django.contrib.humanize',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+
+    'robots',
 
 
     'mysite',
     'accounts',
     'blog',
 ]
+# SITE FRAMEWORK
+SITE_ID = 2
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
