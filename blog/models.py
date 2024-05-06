@@ -36,7 +36,7 @@ class Post(models.Model):
         return "{}- {}".format(self.title, self.id)
 
     def get_absolute_url(self):
-        return reverse("singe_blog", kwargs={'pid': self.id})
+        return reverse("blog:single", kwargs={'pid': self.id})
 
 
 class Likes(models.Model):
