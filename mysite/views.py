@@ -7,8 +7,8 @@ from blog.models import Post
 
 def index_view(request):
     posts = Post.objects.all().order_by('-like')[:5]
-
-    context = {'posts': posts}
+    form = ContactForm()
+    context = {'posts': posts, 'form': form}
     return render(request, 'mysite/index.html', context)
 
 

@@ -1,8 +1,7 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from blog.models import Post, Category, Likes
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.utils import timezone
-from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
@@ -13,13 +12,15 @@ from .forms import PostForm
 def home_blog(request, **kwargs):
     posts = Post.objects.filter(
         published_date__lte=timezone.now(), status=1)
+    print(posts)
     if kwargs.get('cat_name') != None:
         posts = posts.filter(category__name=kwargs['cat_name'])
     elif kwargs.get("author_username") != None:
         posts = posts.filter(author__username=kwargs["author_username"])
     elif kwargs.get('tag_name') != None:
         posts = posts.filter(tags__name__in=[kwargs['tag_name']])
-    posts = Paginator(posts, 10)
+    posts = Paginator(posts, 5)
+
     try:
         page_number = request.GET.get("page")
         posts = posts.get_page(page_number)
@@ -66,13 +67,13 @@ def single_blog(request, pid):
 
 
 def search_blog(request):
-    query = request.GET.get('s')  # دریافت پارامتر جستجو از آدرس
+    query = request.GET.get('s')
     categories = Category.objects.filter(
-        name__icontains=query)  # جستجو در نام دسته بندی
+        name__icontains=query)
     posts = Post.objects.filter(
         title__icontains=query) | Post.objects.filter(
         author__username__icontains=query)
-    # جستجو در عنوان پست و نام نویسنده
+
     context = {
         'categories': categories,
         'posts': posts,

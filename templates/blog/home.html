@@ -137,9 +137,8 @@ https://templatemo.com/tm-569-edu-meeting
             <div class="col-lg-12">
               <div class="row grid">
 
-                {% for post in posts%}
-
-                <div class="col-lg-4 templatemo-item-col all imp">
+                {% for post in posts %}
+                <div class="col-lg-4 templatemo-item-col all att soon">
                   <div class="meeting-item">
                     <div class="thumb">
                       <div class="price">
@@ -160,61 +159,33 @@ https://templatemo.com/tm-569-edu-meeting
                       <a href="{% url 'blog:single' pid=post.id %}">
                         <h4>{{post.title}}</h4>
                       </a>
-                      <br>
-                      {{post.content|safe|truncatechars:20}}
-                      <br>
+                      <p><br>
+                        {{post.content|safe|truncatechars:20}}
+                        <br>
+                      </p>
                       Author:
                       <a
-                        href="{% url 'blog:author' author_username=post.author.username %}">{{post.author.get_full_name}}</a>
+                        href="{% url 'blog:author' author_username=post.author.username %}">{{post.author.username}}</a>
                       <br>
                     </div>
                   </div>
                 </div>
-
-
                 {% endfor %}
-
-
-
               </div>
             </div>
-          </div>
-          <div class="col-lg-12">
-            <div class="pagination">
-              <ul>
-                {% if posts.has_previous %}
-                <li class="">
-                  <a href="?page={{posts.previous_page_number}}" class="page-link" aria-label="Previous">
-                    <span aria-hidden="true">
-                      <span class=""></span>
-                    </span>
-                  </a>
-                </li>
-                {% endif %}
-                {% for i in posts.paginator.page_range %}
-                {% if posts.number == i %}
-
-                <li class="active"><a href="#">{{i}}</a></li>
-                {% else %}
-                <li><a href="?page={{i}}">{{i}}</a></li>
-                <li><a href="?page={{i}}"><i class="fa fa-angle-right"></i></a></li>
-                {% endif %}
-                {% endfor %}
-                {% if posts.has_next %}
-                <li class="">
-                  <a href="?page={{posts.next_page_number}}" class="page-link" aria-label="Next">
-                    <span aria-hidden="true">
-                      <span class="lnr lnr-chevron-right"></span>
-                    </span>
-                  </a>
-                </li>
-                {% endif %}
-              </ul>
+            <div class="col-lg-12">
+              <div class="pagination">
+                <ul>
+                  <li><a href="#">1</a></li>
+                  <li class="active"><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
     <div class="footer">
       <p>Copyright © 2022 Edu Meeting Co., Ltd. All Rights Reserved.

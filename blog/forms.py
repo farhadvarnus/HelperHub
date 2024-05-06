@@ -1,11 +1,11 @@
 from django import forms
 from blog.models import Post
-# from captcha.fields import CaptchaField
+from captcha.fields import CaptchaField
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
 class PostForm(forms.ModelForm):
-    # captcha = CaptchaField()
+    captcha = CaptchaField()
     content = forms.CharField(widget=SummernoteWidget())
 
     class Meta:
