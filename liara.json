@@ -1,0 +1,21 @@
+{
+    "platform": "django",
+    "django": {
+        "pythonVersion": "3.9",
+        "collectStatic": true,
+        "compileMessages": false,
+        "modifySettings": true,
+        "timezone": "Asia/Tehran"
+    },
+    "app": "helperhub",
+    "disks": [
+        {
+            "name": "static",
+            "mountTo": "static"
+        },
+        {
+            "name": "media",
+            "mountTo": "media"
+        }
+    ]
+}

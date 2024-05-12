@@ -1,4 +1,5 @@
 {% load static %}
+{% load compress %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,15 +14,20 @@
     <title>Education Meeting HTML5 Template</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
 
     <link rel="shortcut icon" href="#">
     <!-- Additional CSS Files -->
+    {% compress css %}
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/templatemo-edu-meeting.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/lightbox.css' %}">
+    {% endcompress %}
     <!--
+        
+
 
 TemplateMo 569 Edu Meeting
 
@@ -75,7 +81,8 @@ https://templatemo.com/tm-569-edu-meeting
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                            <li><a href="{% url 'mysite:index' %}">Home</a>
+                            </li>
                             <li><a href="{% url 'blog:index' %}">Free Learning</a></li>
                             <li class="scroll-to-section"><a href="#apply">Apply Now</a></li>
                             {% if request.user.is_authenticated %}
@@ -120,6 +127,7 @@ https://templatemo.com/tm-569-edu-meeting
 
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
+    {% compress js file base %}
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 
@@ -130,6 +138,8 @@ https://templatemo.com/tm-569-edu-meeting
     <script src="{% static 'assets/js/video.js' %}"></script>
     <script src="{% static 'assets/js/slick-slider.js' %}"></script>
     <script src="{% static 'assets/js/custom.js' %}"></script>
+    {% endcompress %}
+
     <script>
         //according to loftblog tut
         $('.nav li:first').addClass('active');

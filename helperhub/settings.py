@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3s*+v4cyj73^5y^6e&ce1ikjixj^-99sy!ayzdxyaqc9s$ew%w'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'captcha',
-
+    "compressor",
     'robots',
 
 
@@ -53,7 +54,7 @@ INSTALLED_APPS = [
     'blog',
 ]
 # SITE FRAMEWORK
-SITE_ID = 2
+SITE_ID = 1
 # captcha
 MULTI_CAPTCHA_ADMIN = {
     'engine': 'simple-captcha'
@@ -64,10 +65,12 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'redirect_to_non_www.middleware.RedirectToNonWww',
 ]
 
 ROOT_URLCONF = 'helperhub.urls'
@@ -93,13 +96,24 @@ WSGI_APPLICATION = 'helperhub.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DB_ENGIEN', default='django.db.backends.postgresql'),
+            'NAME': config('DB_NAME', default='postgres'),
+            'USER': config('DB_USER', default='postgres'),
+            'PASSWORD': config('DB_PASSWORD', default='postgres'),
+            'HOST': config('DB_HOST', default='127.0.0.1'),
+            'PORT': config('DB_PORT', default=5432, cast=int),
+        }
+    }
 
 
 # Password validation
@@ -141,8 +155,17 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "static"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
-STATICFILES_DIRS = [BASE_DIR/"statics",]
+STATICFILES_DIRS = [
+    BASE_DIR/"statics",
+]
 
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -154,12 +177,37 @@ AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailBackend', ]
 
 # SMTP RESET PASSWORD MR ROUHOLLAHI
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'farhad.rouhollahi11@gmail.com'
-EMAIL_HOST_PASSWORD = 'usoxxmvewvccsagd'
-DEFAULT_FROM_EMAIL = "farhad.rouhollahi11@gmail.com"
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', default=0, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 # SUMMERNOTE
-X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+if config("USE_SSL_SETTINGS", cast=bool, default=False):
+    # Https settings
+
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+
+    # HSTS settings
+
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # more security settings
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+
+    SECURE_REFERRER_POLICY = "strict-origin"
+    USE_X_FORWARDED_HOST = True
+    SECURE_PROXY_SSL_MEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+
+# SUMMERNOTE_CONFIG = {
+#    'attachment_absolute_uri': config('SN_CONF', default=True, cast=bool)
+# }
+X_FRAME_OPTIONS = "SAMEORIGIN"

@@ -1,0 +1,13 @@
+RewriteEngine On
+RewriteBase /
+
+# Force WWW. when no subdomain in host
+RewriteCond %{HTTP_HOST} ^[^.]+\.[^.]+$ [NC]
+RewriteCond %{HTTPS}s ^on(s)|off [NC]
+RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Remove WWW. when subdomain(s) in host     
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteCond %{HTTPS}s ^on(s)|off [NC]
+RewriteCond http%1://%{HTTP_HOST} ^(https?://)(www\.)(.+\.)(.+\.)(.+)$ [NC]
+RewriteRule ^ %1%3%4%5%{REQUEST_URI} [R=301,L]

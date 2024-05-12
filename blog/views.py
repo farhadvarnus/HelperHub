@@ -12,7 +12,7 @@ from .forms import PostForm
 def home_blog(request, **kwargs):
     posts = Post.objects.filter(
         published_date__lte=timezone.now(), status=1)
-    print(posts)
+
     if kwargs.get('cat_name') != None:
         posts = posts.filter(category__name=kwargs['cat_name'])
     elif kwargs.get("author_username") != None:
@@ -140,5 +140,5 @@ def create_post_blog(request):
 
     form = PostForm()
     category = Category.objects.all()
-    print(category)
+
     return render(request, "dashboard/create-post.html", {"form": form, 'category': category})
